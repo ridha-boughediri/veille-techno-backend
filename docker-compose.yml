@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  # Service Node.js
+  web:
+    image: node:18-alpine
+    build: ./kanban
+    working_dir: /usr/src/app
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+    command: ["npm", "run", "start:prod"]
+    volumes:
+      - ./kanban:/usr/src/app
+
+  # Service MySQL
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: kanban
+      MYSQL_USER: root2
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3308:3306"
+
+  # Service phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: 1234
+    ports:
+      - "8080:80"
+    depends_on: 
+      - mysql

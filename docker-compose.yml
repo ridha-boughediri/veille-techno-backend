@@ -25,6 +25,16 @@ services:
     ports:
       - "3307:3306"
 
+
+   # service mailer hog
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+   
+
   # Service phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
